@@ -1,0 +1,29 @@
+curl -k "https://example.com/contact" \
+  -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0" \
+  -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" \
+  -H "Accept-Language: en-US,en;q=0.5" \
+  --compressed \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -H "Connection: keep-alive" \
+  -H "Referer: https://example.com/contact" \
+  -H "Cookie: SESS<SESSION_ID_NAME>=<SESSION_VALUE>; has_js=1" \
+  -H "Upgrade-Insecure-Requests: 1" \
+  --data "submitted%5Bfirst_name%5D=John\
+&submitted%5Blast_name%5D=Doe\
+&submitted%5Bjob_title%5D=Analyst\
+&submitted%5Bcompany%5D=ExampleCorp\
+&submitted%5Bemail%5D=user%40example.com\
+&submitted%5Bcountry%5D=US\
+&submitted%5Bcity%5D=City\
+&submitted%5Bphone%5D=5550000000\
+&submitted%5Bid_number%5D=000000000\
+&submitted%5Bcomment%5D=Test+message\
+&submitted%5Bhow_did_you_hear%5D%5Boption%5D=option\
+&submitted%5Baccept_terms%5D=Yes\
+&details%5Bsid%5D=\
+&details%5Bpage_num%5D=1\
+&details%5Bpage_count%5D=1\
+&details%5Bfinished%5D=0\
+&form_build_id=form-<FORM_BUILD_ID>\
+&form_id=webform_client_form_<ID>\
+&op=Submit"

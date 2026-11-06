@@ -1,0 +1,7 @@
+azure-identity>=1.15.0
+azure-mgmt-containerinstance>=10.1.0
+azure-mgmt-containerregistry>=10.3.0
+azure-mgmt-resource>=23.0.0
+pyyaml>=6.0
+PySocks>=1.7.1
+python-socks[asyncio]>=2.4.0

@@ -1,0 +1,8 @@
+# Ignore results directory
+results/
+*.pyc
+__pycache__/
+*.log
+
+# But keep the directory structure
+!results/.gitkeep

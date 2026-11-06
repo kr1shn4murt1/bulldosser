@@ -1,0 +1,9 @@
+config.local.yaml
+.bulldosser_state.json
+__pycache__/
+*.pyc
+*.log
+*.bak
+.env
+requests/results/
+.claude/
